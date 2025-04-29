@@ -1,8 +1,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.js';
 
 // Supabase 클라이언트 초기화
-const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';  // 여기에 실제 URL을 입력하세요
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';  // 여기에 실제 Supabase Anon Key를 입력하세요
+const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';  // 실제 URL을 여기에 넣으세요
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';  // 실제 Supabase Anon Key를 여기에 넣으세요
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // DOM 요소
@@ -10,6 +10,10 @@ const emailInput = document.getElementById('auth-email');
 const passwordInput = document.getElementById('auth-password');
 const btnSignUp = document.getElementById('btn-signup');
 const btnSignIn = document.getElementById('btn-signin');
+
+// 초기화되지 않은 변수들 정의
+let sliderBarShow = true;
+let wordSelectShow = false;
 
 // 회원가입
 btnSignUp.onclick = async () => {
