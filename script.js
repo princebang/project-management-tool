@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.js';
 
 const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
-const supabaseAnonKey = '<YOUR_ANON_KEY>';  // 여기에 실제 Supabase Anon Key 입력
+const supabaseAnonKey = '<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug>';  // 여기에 실제 Supabase Anon Key 입력
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // DOM 요소
