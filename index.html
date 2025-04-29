@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Project</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon 경로 -->
-    <link rel="stylesheet" href="styles.css"> <!-- CSS 파일 링크 -->
+    <title>프로젝트 관리 툴</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="content">
-        <h1>My Project</h1>
-        <button id="someButton">버튼 클릭</button>
+    <div class="container">
+        <header>
+            <h1>My Project</h1>
+        </header>
+
+        <div class="main-content">
+            <button id="addButton">버튼 클릭</button>
+            <div id="messageBox"></div>
+        </div>
+
+        <footer>
+            <p>프로젝트 관리 툴</p>
+        </footer>
     </div>
 
-    <script src="script.js"></script> <!-- JS 파일 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
