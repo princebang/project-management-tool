@@ -1,111 +1,59 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.js';
 
 const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
-const supabaseAnonKey = '<YOUR_ANON_KEY>';
+const supabaseAnonKey = '<YOUR_ANON_KEY>';  // 여기에 실제 Supabase Anon Key 입력
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-let currentTaskId = null;
-let taskSubscription = null;
-let draggedTaskId = null;
-let mentionSuggestions = [];
+// DOM 요소
+const emailInput = document.getElementById('auth-email');
+const passwordInput = document.getElementById('auth-password');
+const btnSignUp = document.getElementById('btn-signup');
+const btnSignIn = document.getElementById('btn-signin');
 
-// DOM
-const commentModal = document.getElementById('comment-modal');
-const commentsList = document.getElementById('comments-list');
-const commentInput = document.getElementById('comment-input');
-const btnPostComment = document.getElementById('btn-post-comment');
+// 회원가입
+btnSignUp.onclick = async () => {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  
+  if (!email || !password) {
+    return alert("이메일과 비밀번호를 입력하세요.");
+  }
 
-// 댓글 모달 열기
-async function openCommentModal(taskId) {
-  currentTaskId = taskId;
-  commentModal.classList.add('show');
-  loadComments();
-  subscribeComments();
-}
+  const { user, error } = await supabase.auth.signUp({ email, password });
 
-// 댓글 로드
-async function loadComments() {
-  const { data } = await supabase.from('comments')
-    .select('id, taskId, content, author, createdAt')
-    .eq('taskId', currentTaskId)
-    .order('createdAt');
-  commentsList.innerHTML = '';
-  data.forEach(c => {
-    const div = document.createElement('div'); div.className = 'comment-item';
-    const html = c.content.replace(/@(\\w+)/g, '<span class="mention">@$1</span>');
-    div.innerHTML = `<div>${html}</div><small>${c.author} · ${new Date(c.createdAt).toLocaleString()}</small>`;
-    commentsList.appendChild(div);
-  });
-}
+  if (error) {
+    return alert('회원가입 실패: ' + error.message);
+  }
 
-// 댓글 작성
-btnPostComment.onclick = async () => {
-  const content = commentInput.value.trim();
-  if (!content) return;
-  const user = supabase.auth.user();
-  await supabase.from('comments').insert([{ taskId: currentTaskId, content, author: user.email }]);
-  commentInput.value = '';
+  alert('회원가입 성공! 이메일을 확인하세요.');
 };
 
-// 멘션 자동완성 기능
-commentInput.addEventListener('input', async (e) => {
-  const text = e.target.value;
-  const mentionPattern = /@([a-zA-Z0-9_]+)$/;
-  const match = mentionPattern.exec(text);
-  if (match) {
-    const mentionText = match[1];
-    mentionSuggestions = await getMentions(mentionText);
-    showMentionSuggestions(e.target);
-  } else {
-    hideMentionSuggestions();
+// 로그인
+btnSignIn.onclick = async () => {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    return alert("이메일과 비밀번호를 입력하세요.");
   }
-});
 
-// 멘션 자동완성 가져오기 (예시: 이메일 목록 또는 사용자 목록)
-async function getMentions(prefix) {
-  const { data } = await supabase.from('users').select('email').ilike('email', `%${prefix}%`);
-  return data.map(user => user.email);
-}
+  const { user, error } = await supabase.auth.signIn({ email, password });
 
-// 멘션 자동완성 UI 표시
-function showMentionSuggestions(inputField) {
-  const rect = inputField.getBoundingClientRect();
-  const suggestionsList = document.createElement('div');
-  suggestionsList.className = 'mention-suggestions';
-  mentionSuggestions.forEach(suggestion => {
-    const item = document.createElement('div');
-    item.className = 'mention-suggestion';
-    item.textContent = suggestion;
-    item.onclick = () => insertMention(suggestion);
-    suggestionsList.appendChild(item);
-  });
-  document.body.appendChild(suggestionsList);
-  suggestionsList.style.left = rect.left + 'px';
-  suggestionsList.style.top = rect.bottom + 'px';
-}
+  if (error) {
+    return alert('로그인 실패: ' + error.message);
+  }
 
-// 멘션 삽입
-function insertMention(mention) {
-  const currentValue = commentInput.value;
-  const mentionPosition = currentValue.lastIndexOf('@');
-  commentInput.value = currentValue.slice(0, mentionPosition) + '@' + mention + ' ';  // Add mention
-  hideMentionSuggestions();
-}
+  // 로그인 성공 시 앱 화면으로 전환
+  alert('로그인 성공!');
+  document.getElementById('auth-section').style.display = 'none'; // 로그인 후 화면 전환
+  document.getElementById('app-section').style.display = 'block'; // 실제 앱 화면 보이기
+};
 
-// 멘션 목록 숨기기
-function hideMentionSuggestions() {
-  const suggestionsList = document.querySelector('.mention-suggestions');
-  if (suggestionsList) suggestionsList.remove();
-}
-
-// 댓글 모달 닫기
-function closeCommentModal() {
-  commentModal.classList.remove('show');
-  if (taskSubscription) supabase.removeSubscription(taskSubscription);
-}
-
-// 댓글 구독
-function subscribeComments() {
-  if (taskSubscription) supabase.removeSubscription(taskSubscription);
-  taskSubscription = supabase.from(`comments:taskId=eq.${currentTaskId}`).on('*', () => loadComments()).subscribe();
+// 로그아웃
+async function signOut() {
+  await supabase.auth.signOut();
+  alert('로그아웃되었습니다!');
+  // 로그인 화면으로 돌아가기
+  document.getElementById('auth-section').style.display = 'block';
+  document.getElementById('app-section').style.display = 'none';
 }
