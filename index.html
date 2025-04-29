@@ -1,64 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>프로젝트 관리 툴</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 관리 툴</title>
 
-  <!-- Supabase CDN 추가 (올바른 URL로 수정) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+    <!-- Supabase CDN 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
 
-  <!-- Favicon 수정 -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  
-  <link rel="stylesheet" href="styles.css">
+    <!-- 스타일 추가 -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <header><h1>프로젝트 관리 툴</h1></header>
-    
-    <!-- 인증 섹션 -->
-    <section id="auth-section">
-      <h2>로그인 / 회원가입</h2>
-      <input type="email" id="auth-email" placeholder="이메일">
-      <input type="password" id="auth-password" placeholder="비밀번호">
-      <button id="btn-signup" class="btn btn-primary">회원가입</button>
-      <button id="btn-signin" class="btn btn-outline">로그인</button>
-    </section>
+    <div class="container">
+        <header>
+            <h1>프로젝트 관리 툴</h1>
+        </header>
 
-    <!-- 앱 섹션 -->
-    <section id="app-section" style="display:none;">
-      <div class="flex-row">
-        <div class="panel">
-          <h2>내 프로젝트</h2>
-          <ul id="project-list"></ul>
-          <button id="btn-add-project" class="btn btn-primary">프로젝트 추가</button>
-        </div>
-        <div class="panel">
-          <h2>태스크 뷰</h2>
-          <div class="view-toggle">
-            <button id="btn-view-kanban" class="btn btn-outline">칸반</button>
-            <button id="btn-view-gantt" class="btn btn-outline">간트</button>
-          </div>
-          <div id="kanban-board" class="kanban-board"></div>
-          <div id="gantt-chart" class="gantt-chart"></div>
-          <button id="btn-add-task" class="btn btn-primary" disabled>태스크 추가</button>
-        </div>
-      </div>
-    </section>
-  </div>
+        <!-- 로그인 / 회원가입 섹션 -->
+        <section id="auth-section">
+            <h2>로그인 / 회원가입</h2>
+            <input type="email" id="auth-email" placeholder="이메일">
+            <input type="password" id="auth-password" placeholder="비밀번호">
+            <button id="btn-signup" class="btn btn-primary">회원가입</button>
+            <button id="btn-signin" class="btn btn-outline">로그인</button>
+        </section>
 
-  <!-- 댓글 모달 -->
-  <div id="comment-modal" class="modal">
-    <div class="modal-content">
-      <h3>Comments</h3>
-      <div id="comments-list"></div>
-      <textarea id="comment-input" placeholder="댓글을 작성하세요. @멘션 지원"></textarea>
-      <button id="btn-post-comment" class="btn btn-primary">전송</button>
-      <button onclick="closeCommentModal()" class="btn btn-outline">닫기</button>
+        <!-- 앱 섹션 (숨김 처리) -->
+        <section id="app-section" style="display:none;">
+            <div class="flex-row">
+                <!-- 앱 콘텐츠 추가 예정 -->
+            </div>
+        </section>
     </div>
-  </div>
 
-  <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
