@@ -1,23 +1,58 @@
-// script.js
+document.getElementById("add-task-btn").addEventListener("click", function () {
+    const taskTitle = document.getElementById("task-title").value;
+    const dueDate = document.getElementById("task-due-date").value;
+    const priority = document.getElementById("task-priority").value;
+    const status = document.getElementById("task-status").value;
+    const comments = document.getElementById("task-comments").value;
 
-// Supabase 클라이언트 설정
-const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug'; // 예시로 제공된 키 (보안을 위해 실제 환경에서는 더 안전한 방법으로 관리)
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-// 버튼 클릭 시 Supabase로 데이터 추가 및 상태 관리
-document.getElementById("addButton").addEventListener("click", async () => {
-    // 버튼 클릭 시 메시지 박스 초기화
-    document.getElementById("messageBox").innerText = "데이터를 추가하는 중...";
-
-    // Supabase에 데이터 추가하기
-    const { data, error } = await supabase
-        .from('tasks')  // 예시로 'tasks'라는 테이블을 사용한다고 가정
-        .insert([{ task_name: '새로운 작업', completed: false }]);
-
-    if (error) {
-        document.getElementById("messageBox").innerText = `오류 발생: ${error.message}`;
-    } else {
-        document.getElementById("messageBox").innerText = "작업이 성공적으로 추가되었습니다!";
+    if (taskTitle === "" || dueDate === "") {
+        alert("업무 제목과 날짜를 입력해주세요.");
+        return;
     }
+
+    // 업무 항목 생성
+    const taskItem = document.createElement("li");
+    taskItem.classList.add("task-item");
+
+    // 우선순위에 따라 색상 설정
+    taskItem.classList.add(priority);
+
+    // 업무 내용 추가
+    taskItem.innerHTML = `
+        <div>
+            <strong>${taskTitle}</strong> <br>
+            <small>기한: ${dueDate} | 상태: ${status} | 비고: ${comments}</small>
+        </div>
+        <button class="delete-btn">삭제</button>
+    `;
+
+    // 삭제 버튼 기능
+    taskItem.querySelector(".delete-btn").addEventListener("click", function () {
+        taskItem.remove();
+    });
+
+    // 업무 목록에 추가
+    document.getElementById("task-list-ul").appendChild(taskItem);
+
+    // 폼 초기화
+    document.getElementById("task-title").value = "";
+    document.getElementById("task-due-date").value = "";
+    document.getElementById("task-priority").value = "high";
+    document.getElementById("task-status").value = "not_started";
+    document.getElementById("task-comments").value = "";
+});
+
+// 검색 기능
+document.getElementById("search").addEventListener("input", function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const tasks = document.querySelectorAll(".task-item");
+
+    tasks.forEach(function (task) {
+        const taskTitle = task.querySelector("strong").textContent.toLowerCase();
+        if (taskTitle.includes(searchTerm)) {
+            task.style.display = "flex";
+        } else {
+            task.style.display = "none";
+        }
+    });
 });
