@@ -3,26 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프로젝트 관리 툴</title>
+    <title>업무 관리 툴</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>My Project</h1>
-        </header>
+        <h1>업무 관리 툴</h1>
 
-        <div class="main-content">
-            <button id="addButton">버튼 클릭</button>
-            <div id="messageBox"></div>
+        <!-- 업무 추가 폼 -->
+        <div class="task-form">
+            <input type="text" id="task-title" placeholder="업무 제목" />
+            <input type="date" id="task-due-date" />
+            <select id="task-priority">
+                <option value="high">높음</option>
+                <option value="medium">중간</option>
+                <option value="low">낮음</option>
+            </select>
+            <select id="task-status">
+                <option value="not_started">미완료</option>
+                <option value="in_progress">진행중</option>
+                <option value="completed">완료</option>
+            </select>
+            <textarea id="task-comments" placeholder="비고"></textarea>
+            <button id="add-task-btn">업무 추가</button>
         </div>
 
-        <footer>
-            <p>프로젝트 관리 툴</p>
-        </footer>
+        <!-- 업무 리스트 -->
+        <div class="task-list">
+            <h2>업무 목록</h2>
+            <input type="text" id="search" placeholder="검색..." />
+            <ul id="task-list-ul"></ul>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
