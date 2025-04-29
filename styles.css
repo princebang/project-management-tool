@@ -1,4 +1,4 @@
-/* 간단한 스타일 예시 */
+/* 기본 스타일 설정 */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -6,59 +6,20 @@ body {
     padding: 0;
 }
 
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#content {
+    text-align: center;
     margin-top: 50px;
 }
 
-header {
-    text-align: center;
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-#auth-section {
-    margin-top: 20px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 10px 20px;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 1.2em;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
-}
-
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid #007bff;
-}
-
-.flex-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+    background-color: #45a049;
 }
