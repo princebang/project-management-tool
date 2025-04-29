@@ -1,4 +1,4 @@
-/* 기본 스타일 설정 */
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -6,20 +6,51 @@ body {
     padding: 0;
 }
 
-#content {
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
     text-align: center;
-    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 1.2em;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #218838;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+#messageBox {
+    font-size: 1.2em;
+    margin-top: 20px;
 }
