@@ -1,64 +1,44 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.js';
+// Supabase URL과 키 설정
+const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Supabase 클라이언트 초기화
-const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';  // 실제 URL을 여기에 넣으세요
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';  // 실제 Supabase Anon Key를 여기에 넣으세요
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// 회원가입 버튼 클릭 이벤트 처리
+document.getElementById('btn-signup').addEventListener('click', async () => {
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
 
-// DOM 요소
-const emailInput = document.getElementById('auth-email');
-const passwordInput = document.getElementById('auth-password');
-const btnSignUp = document.getElementById('btn-signup');
-const btnSignIn = document.getElementById('btn-signin');
+    const { user, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
 
-// 초기화되지 않은 변수들 정의
-let sliderBarShow = true;
-let wordSelectShow = false;
+    if (error) {
+        alert(`Error: ${error.message}`);
+    } else {
+        alert('회원가입 성공!');
+        // 회원가입 후 앱 섹션을 보여줌
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('app-section').style.display = 'block';
+    }
+});
 
-// 회원가입
-btnSignUp.onclick = async () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-  
-  if (!email || !password) {
-    return alert("이메일과 비밀번호를 입력하세요.");
-  }
+// 로그인 버튼 클릭 이벤트 처리
+document.getElementById('btn-signin').addEventListener('click', async () => {
+    const email = document.getElementById('auth-email').value;
+    const password = document.getElementById('auth-password').value;
 
-  const { user, error } = await supabase.auth.signUp({ email, password });
+    const { user, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
 
-  if (error) {
-    return alert('회원가입 실패: ' + error.message);
-  }
-
-  alert('회원가입 성공! 이메일을 확인하세요.');
-};
-
-// 로그인
-btnSignIn.onclick = async () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-
-  if (!email || !password) {
-    return alert("이메일과 비밀번호를 입력하세요.");
-  }
-
-  const { user, error } = await supabase.auth.signIn({ email, password });
-
-  if (error) {
-    return alert('로그인 실패: ' + error.message);
-  }
-
-  // 로그인 성공 시 앱 화면으로 전환
-  alert('로그인 성공!');
-  document.getElementById('auth-section').style.display = 'none'; // 로그인 후 화면 전환
-  document.getElementById('app-section').style.display = 'block'; // 실제 앱 화면 보이기
-};
-
-// 로그아웃
-async function signOut() {
-  await supabase.auth.signOut();
-  alert('로그아웃되었습니다!');
-  // 로그인 화면으로 돌아가기
-  document.getElementById('auth-section').style.display = 'block';
-  document.getElementById('app-section').style.display = 'none';
-}
+    if (error) {
+        alert(`Error: ${error.message}`);
+    } else {
+        alert('로그인 성공!');
+        // 로그인 후 앱 섹션을 보여줌
+        document.getElementById('auth-section').style.display = 'none';
+        document.getElementById('app-section').style.display = 'block';
+    }
+});
