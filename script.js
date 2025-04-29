@@ -1,44 +1,35 @@
-// Supabase URL과 키 설정
-const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug';
+// Supabase 초기화
+const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';  // 실제 프로젝트 URL로 교체
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug'; // 실제 API 키로 교체
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// 회원가입 버튼 클릭 이벤트 처리
-document.getElementById('btn-signup').addEventListener('click', async () => {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
-
-    const { user, error } = await supabase.auth.signUp({
-        email: email,
-        password: password
-    });
-
+// Supabase 데이터 가져오기 예시
+async function getData() {
+    const { data, error } = await supabase
+        .from('your_table')  // 테이블 이름으로 수정
+        .select('*');
     if (error) {
-        alert(`Error: ${error.message}`);
+        console.error('데이터 가져오기 실패:', error);
     } else {
-        alert('회원가입 성공!');
-        // 회원가입 후 앱 섹션을 보여줌
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('app-section').style.display = 'block';
+        console.log('가져온 데이터:', data);
     }
-});
+}
 
-// 로그인 버튼 클릭 이벤트 처리
-document.getElementById('btn-signin').addEventListener('click', async () => {
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
+getData();  // 데이터 가져오는 함수 호출
 
-    const { user, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password
-    });
+// SliderBarShow 오류 해결을 위한 객체 초기화
+const someObject = {
+    SliderBarShow: true  // 예시로 객체에 SliderBarShow 속성 추가
+};
 
-    if (error) {
-        alert(`Error: ${error.message}`);
-    } else {
-        alert('로그인 성공!');
-        // 로그인 후 앱 섹션을 보여줌
-        document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('app-section').style.display = 'block';
-    }
+// SliderBarShow가 정의되었는지 확인 후 사용
+if (someObject && someObject.SliderBarShow) {
+    console.log('SliderBarShow가 활성화되었습니다.');
+} else {
+    console.log('SliderBarShow가 정의되지 않았습니다.');
+}
+
+// DOM 작업 예시: 버튼 클릭 시 동작
+document.getElementById('someButton').addEventListener('click', () => {
+    console.log('버튼이 클릭되었습니다.');
 });
