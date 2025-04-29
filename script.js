@@ -1,35 +1,23 @@
-// Supabase 초기화
-const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';  // 실제 프로젝트 URL로 교체
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug'; // 실제 API 키로 교체
+// script.js
+
+// Supabase 클라이언트 설정
+const supabaseUrl = 'https://mhjzddcdfwjxpkjiumdl.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oanpkZGNkZndqeHBraml1bWRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4ODk4MTQsImV4cCI6MjA2MTQ2NTgxNH0.0iQOH_OhNjkq8RR64cKmEBkJ1vE5lnEd5OuDjnn0Iug'; // 예시로 제공된 키 (보안을 위해 실제 환경에서는 더 안전한 방법으로 관리)
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Supabase 데이터 가져오기 예시
-async function getData() {
+// 버튼 클릭 시 Supabase로 데이터 추가 및 상태 관리
+document.getElementById("addButton").addEventListener("click", async () => {
+    // 버튼 클릭 시 메시지 박스 초기화
+    document.getElementById("messageBox").innerText = "데이터를 추가하는 중...";
+
+    // Supabase에 데이터 추가하기
     const { data, error } = await supabase
-        .from('your_table')  // 테이블 이름으로 수정
-        .select('*');
+        .from('tasks')  // 예시로 'tasks'라는 테이블을 사용한다고 가정
+        .insert([{ task_name: '새로운 작업', completed: false }]);
+
     if (error) {
-        console.error('데이터 가져오기 실패:', error);
+        document.getElementById("messageBox").innerText = `오류 발생: ${error.message}`;
     } else {
-        console.log('가져온 데이터:', data);
+        document.getElementById("messageBox").innerText = "작업이 성공적으로 추가되었습니다!";
     }
-}
-
-getData();  // 데이터 가져오는 함수 호출
-
-// SliderBarShow 오류 해결을 위한 객체 초기화
-const someObject = {
-    SliderBarShow: true  // 예시로 객체에 SliderBarShow 속성 추가
-};
-
-// SliderBarShow가 정의되었는지 확인 후 사용
-if (someObject && someObject.SliderBarShow) {
-    console.log('SliderBarShow가 활성화되었습니다.');
-} else {
-    console.log('SliderBarShow가 정의되지 않았습니다.');
-}
-
-// DOM 작업 예시: 버튼 클릭 시 동작
-document.getElementById('someButton').addEventListener('click', () => {
-    console.log('버튼이 클릭되었습니다.');
 });
